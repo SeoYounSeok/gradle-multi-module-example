@@ -1,0 +1,15 @@
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation project(':modules:database:database-interface')
+    implementation project(':modules:database:database-common')
+    
+    runtimeOnly('com.h2database:h2')
+}
