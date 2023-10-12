@@ -1,0 +1,19 @@
+rootProject.name = 'multimodule-example'
+
+println 'multimodule-example is executed during the initialization phase.'
+
+
+file("modules").eachDir { module ->
+   includeRecur(module, "modules:$module.name")
+}
+
+def includeRecur(module, name) {
+   file(module).eachDir {
+      def moduleName = name + ":$it.name";
+      if (new File(it, "build.gradle").exists()) {
+         include moduleName
+      } else {
+         includeRecur(it, moduleName)
+      }
+    }
+}

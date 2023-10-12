@@ -1,0 +1,13 @@
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
+
+dependencies {
+    implementation project(':modules:database:database-interface')
+
+    runtimeOnly('com.h2database:h2')
+}

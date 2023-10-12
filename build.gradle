@@ -1,0 +1,68 @@
+buildscript {
+    ext {
+        springBootVersion = '2.7.10' // 스프링 부트 버전
+        gradleVersion = '7.6.1' // Gradle 버전
+        springBootManageVersion = '1.0.15.RELEASE'
+        springCloudVersion = '2021.0.0'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
+        classpath("io.spring.gradle:dependency-management-plugin:$springBootManageVersion")
+    }
+}
+
+allprojects {
+    group = 'com.example' // 그룹 아이디
+    version = '1.0.0' // 프로젝트 버전
+    
+}
+
+
+def javaProjects() {
+    println('searching for module which has "src" folder')
+    return subprojects.findAll { 
+        def isExist = new File(it.projectDir, "src").exists();
+        if (isExist) {
+            println('Found >>> ' + it)
+        }        
+        isExist
+    }
+}
+
+configure(javaProjects()) {
+        apply plugin: 'java'
+        apply plugin: 'org.springframework.boot' // 스프링 부트 플러그인 적용
+        apply plugin: 'io.spring.dependency-management'
+
+        repositories {
+            mavenCentral()
+        }
+
+        configurations {
+            compileOnly {
+                extendsFrom annotationProcessor
+            }
+        }
+
+        dependencies {
+            compileOnly 'org.projectlombok:lombok'
+	        annotationProcessor 'org.projectlombok:lombok'
+
+            implementation 'org.springframework.boot:spring-boot-starter' // 스프링 부트 스타터 의존성
+            testImplementation 'org.springframework.boot:spring-boot-starter-test'
+        }
+
+        dependencyManagement {
+            imports {
+                mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+            }
+        }
+
+        tasks.named('test') {
+            useJUnitPlatform()
+        }
+
+}
