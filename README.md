@@ -13,46 +13,6 @@
  - 멀티 모듈을 이용하여 유연한 서비스 배포
 
 
-~~~
 
-multimodule-example/       <- 루트 프로젝트
-│
-├── build.gradle     <- 루트 프로젝트 빌드 스크립트
-├── settings.gradle  <- 루트 프로젝트 설정 스크립트
-│
-├── modules/          <- 각 모듈을 포함하는 디렉터리
-│   │
-│   ├── database/
-│   │   ├── database-common
-│   │   ├── database-interface
-│   │   └── database-user
-│   │
-│   ├── persistence/
-│   │   ├── persistence-common
-│   │   ├── persistence-user-interface
-│   │   ├── persistence-user-r2dbc
-│   │   ├── persistence-user-jpa
-│   │   └── persistence-user
-│   │
-│   ├── database-user-interface/
-│   │   ├── build.gradle
-│   │   └── src/
-│   │
-│   ├── database-user/
-│   │   ├── build.gradle
-│   │   └── src/
-│   │
-│   ├── ...
-│   │
-│   ├── user-api/
-│   │   ├── build.gradle
-│   │   └── src/
-│   │
-│   ├── event-api/
-│   │   ├── build.gradle
-│   │   └── src/
-│   │
-│   ├── ...
-│
-└── ...
-~~~
+<img width="391" alt="Screenshot 2023-10-12 at 21 18 54" src="https://github.com/letitgobaby/gradle-multi-module-example/assets/48303144/a983de10-906b-4866-904e-713d7484f4cc">
+
