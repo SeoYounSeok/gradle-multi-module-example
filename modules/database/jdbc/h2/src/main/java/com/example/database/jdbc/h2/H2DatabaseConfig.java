@@ -2,6 +2,7 @@ package com.example.database.jdbc.h2;
 
 import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.stereotype.Component;
 
@@ -10,10 +11,10 @@ import com.example.database.interfaces.DriverInfo;
 
 import lombok.RequiredArgsConstructor;
 
-
+@Qualifier("DatabaseConfig")
 @Component
 @RequiredArgsConstructor
-public class DatabaseConfigImpl implements DatabaseConfig {
+public class H2DatabaseConfig implements DatabaseConfig {
 
     private DriverInfo info;
     
