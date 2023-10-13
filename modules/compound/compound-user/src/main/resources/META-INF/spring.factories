@@ -1,0 +1,2 @@
+# PostProcessor
+org.springframework.boot.env.EnvironmentPostProcessor = com.example.compound.user.GlobalPropertiesConfig
