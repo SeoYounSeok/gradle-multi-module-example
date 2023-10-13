@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class DatabaseConfigImpl implements DatabaseConfig {
+public class H2DatabaseConfig implements DatabaseConfig {
 
     private DriverInfo info;
     
@@ -29,6 +29,7 @@ public class DatabaseConfigImpl implements DatabaseConfig {
         dataSource.setUrl(info.url());
         dataSource.setUsername(info.userName());
         dataSource.setPassword(info.password());
+        
         return dataSource;
     }
 

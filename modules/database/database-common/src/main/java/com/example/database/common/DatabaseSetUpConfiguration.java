@@ -15,11 +15,11 @@ import lombok.RequiredArgsConstructor;
 public class DatabaseSetUpConfiguration {
     
     private final DriverInfo infoConfig;
+
     private final DatabaseConfig source;
 
     @Bean
     public DataSource dataSource() {
-        System.out.println("DRIVER SET");
         source.injectDriverInfo(infoConfig);
         return source.getDataSource();
     }

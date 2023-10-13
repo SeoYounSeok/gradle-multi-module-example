@@ -41,6 +41,13 @@ configure(javaProjects()) {
             mavenCentral()
         }
 
+        // tasks.named('processResources') {
+        //     expand(project.properties)
+        // }
+        // processResources {
+        //     expand(project.properties)
+        // }
+
         configurations {
             compileOnly {
                 extendsFrom annotationProcessor
