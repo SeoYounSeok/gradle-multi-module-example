@@ -4,8 +4,8 @@ import javax.sql.DataSource;
 
 public interface DatabaseConfig {
 
-    DataSource getDataSource();
+    DataSource getDataSource(DriverInfo config);
 
-    void injectDriverInfo(DriverInfo config);
+    // void injectDriverInfo(DriverInfo config);
     
 }

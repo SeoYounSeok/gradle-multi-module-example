@@ -16,3 +16,9 @@
 
 <img width="391" alt="Screenshot 2023-10-12 at 21 18 54" src="https://github.com/letitgobaby/gradle-multi-module-example/assets/48303144/a983de10-906b-4866-904e-713d7484f4cc">
 
+
+--
+#### 실행 커맨드
+ - ./gradlew cleanTest test
+ - ./gradlew :modules:compound:compound-user:cleanTest test --rerun-tasks
+ 

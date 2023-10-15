@@ -2,4 +2,7 @@
 dependencies {
     implementation project(':modules:api:api-user')
     implementation project(':modules:database:jdbc:h2')
+
+    testImplementation project(':modules:database:jdbc:h2')
+    testImplementation project(':modules:api:api-user')
 }
