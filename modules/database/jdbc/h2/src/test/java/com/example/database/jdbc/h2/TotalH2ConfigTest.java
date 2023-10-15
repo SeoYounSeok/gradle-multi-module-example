@@ -16,7 +16,7 @@ import com.example.database.interfaces.DriverInfo;
 
 public class TotalH2ConfigTest {
 
-    private DriverInfo realInfo;
+    private DriverInfo validInfo;
 
     DriverInfo mockInfo;
 
@@ -24,21 +24,26 @@ public class TotalH2ConfigTest {
     void setUp() {
         mockInfo = mock(DriverInfo.class);
 
-        realInfo = new H2DriverInfo();
+        validInfo = new H2DriverInfo(
+            "org.h2.Driver",
+            "jdbc:h2:mem:testdb",
+            "test",
+            "test"
+        );
     }
 
     @Test
     void test_driver_info_vaild_check() {
-        assertNotNull(realInfo.driverClassName());
-        assertNotNull(realInfo.url());
-        assertNotNull(realInfo.userName());
-        assertNotNull(realInfo.password());
+        assertNotNull(validInfo.driverClassName());
+        assertNotNull(validInfo.url());
+        assertNotNull(validInfo.userName());
+        assertNotNull(validInfo.password());
     }
 
     @ParameterizedTest(name = "DriverInfo 에 들어있는 값이 h2가 맞는지 확인")
     @CsvSource({ "org.h2.Driver" })
     void test_drivder_className_is_h2(String h2Driver) {
-        assertThat(realInfo.driverClassName()).isEqualTo(h2Driver);
+        assertThat(validInfo.driverClassName()).isEqualTo(h2Driver);
     }
 
     @Test
@@ -60,7 +65,7 @@ public class TotalH2ConfigTest {
         DatabaseConfig config = new H2DatabaseConfig();
         config.injectDriverInfo(mockInfo);
 
-        when(mockInfo.driverClassName()).thenReturn(realInfo.driverClassName());
+        when(mockInfo.driverClassName()).thenReturn(validInfo.driverClassName());
         when(mockInfo.url()).thenReturn("inVaild-url");
 
         assertThatThrownBy(() -> {
@@ -73,12 +78,7 @@ public class TotalH2ConfigTest {
     @Test
     void test_connection_with_driverInfo_유효한정보() {
         DatabaseConfig config = new H2DatabaseConfig();
-        config.injectDriverInfo(mockInfo);
-
-        when(mockInfo.driverClassName()).thenReturn(realInfo.driverClassName());
-        when(mockInfo.url()).thenReturn(realInfo.url());
-        when(mockInfo.userName()).thenReturn(realInfo.userName());
-        when(mockInfo.password()).thenReturn(realInfo.password());
+        config.injectDriverInfo(validInfo);
 
         assertDoesNotThrow(() -> {
             config.getDataSource().getConnection();

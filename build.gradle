@@ -21,12 +21,14 @@ allprojects {
 }
 
 
+
+
 def javaProjects() {
     println('searching for module which has "src" folder')
     return subprojects.findAll { 
         def isExist = new File(it.projectDir, "src").exists();
         if (isExist) {
-            println('Found >>> ' + it)
+            println('[Found Module]  ' + it)
         }        
         isExist
     }
@@ -40,13 +42,6 @@ configure(javaProjects()) {
         repositories {
             mavenCentral()
         }
-
-        // tasks.named('processResources') {
-        //     expand(project.properties)
-        // }
-        // processResources {
-        //     expand(project.properties)
-        // }
 
         configurations {
             compileOnly {
@@ -70,6 +65,11 @@ configure(javaProjects()) {
 
         tasks.named('test') {
             useJUnitPlatform()
+            afterTest { desc, result ->
+                def output = "Class name: ${desc.className}, Test name: ${desc.name},  (Test status: ${result.resultType})"
+                println('\n' + output)
+            }
+            // testLogging.showStandardStreams = false
         }
 
 }
