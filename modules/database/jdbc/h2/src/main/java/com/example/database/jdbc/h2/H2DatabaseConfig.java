@@ -2,8 +2,8 @@ package com.example.database.jdbc.h2;
 
 import javax.sql.DataSource;
 
+import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.stereotype.Component;
 
 import com.example.database.interfaces.DatabaseConfig;
 import com.example.database.interfaces.DriverInfo;
@@ -11,19 +11,12 @@ import com.example.database.interfaces.DriverInfo;
 import lombok.RequiredArgsConstructor;
 
 
-@Component
+@Configuration
 @RequiredArgsConstructor
 public class H2DatabaseConfig implements DatabaseConfig {
 
-    private DriverInfo info;
-    
     @Override
-    public void injectDriverInfo(DriverInfo config) {
-        this.info = config;
-    }
-
-    @Override
-    public DataSource getDataSource() {
+    public DataSource getDataSource(DriverInfo info) {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(info.driverClassName());
         dataSource.setUrl(info.url());

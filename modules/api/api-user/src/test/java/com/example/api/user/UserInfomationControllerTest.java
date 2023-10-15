@@ -11,7 +11,5 @@ public class UserInfomationControllerTest {
 
         // assertThat("test")
         assertThat("test").isEqualTo("test");
-
-        // assertTrue(true);
     }
 }
