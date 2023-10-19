@@ -7,4 +7,16 @@ jar {
 }
 
 dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    
+    // util
+    implementation project(':modules:utils:generator')
+
+    implementation project(':modules:persistence:domain')
+    implementation project(':modules:persistence:adapter:common')
+ 
+
+    // for Test
+    runtimeOnly 'com.h2database:h2'
+    testImplementation 'org.mockito:mockito-inline:3.6.0'
 }
