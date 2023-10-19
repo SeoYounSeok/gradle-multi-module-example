@@ -1,3 +1,5 @@
+
+
 buildscript {
     ext {
         springBootVersion = '2.7.10' // 스프링 부트 버전
@@ -14,11 +16,15 @@ buildscript {
     }
 }
 
-allprojects {
-    group = 'com.example' // 그룹 아이디
-    version = '1.0.0' // 프로젝트 버전
-    
+plugins {
+    id 'base'
 }
+
+// allprojects {
+//     group = 'com.example' // 그룹 아이디
+//     version = '1.0.0' // 프로젝트 버전
+    
+// }
 
 
 def javaProjects() {
@@ -26,16 +32,20 @@ def javaProjects() {
     return subprojects.findAll { 
         def isExist = new File(it.projectDir, "src").exists();
         if (isExist) {
-            println('Found >>> ' + it)
-        }        
-        isExist
+            println('[Found Module]  ' + it)
+            return isExist
+        }
     }
 }
 
 configure(javaProjects()) {
+        group = 'com.example' // 그룹 아이디
+        version = '1.0.0' // 프로젝트 버전
+
         apply plugin: 'java'
         apply plugin: 'org.springframework.boot' // 스프링 부트 플러그인 적용
         apply plugin: 'io.spring.dependency-management'
+        apply plugin: 'java-library'
 
         repositories {
             mavenCentral()
@@ -52,7 +62,11 @@ configure(javaProjects()) {
 	        annotationProcessor 'org.projectlombok:lombok'
 
             implementation 'org.springframework.boot:spring-boot-starter' // 스프링 부트 스타터 의존성
-            testImplementation 'org.springframework.boot:spring-boot-starter-test'
+            testImplementation 'org.springframework.boot:spring-boot-starter-test' 
+            // {
+            //     exclude group: 'org.mockito', module :'mockito-core'
+            // }
+            // testImplementation 'org.mockito:mockito-inline'
         }
 
         dependencyManagement {
@@ -63,6 +77,10 @@ configure(javaProjects()) {
 
         tasks.named('test') {
             useJUnitPlatform()
+            afterTest { desc, result ->
+                def output = "Class name: ${desc.className}, Test name: ${desc.name},  (Test status: ${result.resultType})"
+                println('\n' + output)
+            }
+            // testLogging.showStandardStreams = false
         }
-
 }

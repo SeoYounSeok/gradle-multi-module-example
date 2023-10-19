@@ -9,5 +9,4 @@ jar {
 dependencies {
     implementation project(':modules:database:database-interface')
 
-    runtimeOnly('com.h2database:h2')
 }
