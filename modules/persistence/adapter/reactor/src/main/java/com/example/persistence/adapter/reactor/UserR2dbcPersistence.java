@@ -1,22 +1,18 @@
 package com.example.persistence.adapter.reactor;
 
-import org.reactivestreams.Publisher;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
-import com.example.persistence.domain.UserModel;
+public interface UserR2dbcPersistence<T> {
 
-public interface UserR2dbcPersistence {
-
-    Publisher<UserModel> findByAccount(String account);
+    Mono<T> findByAccount(String account);
     
-    Publisher<UserModel> findByUserId(String userId);
+    Mono<T> findByUserId(String userId);
 
-    Publisher<UserModel> searchLikeByAccount(String account);
-
-    Publisher<Boolean> isExist();
+    Flux<T> searchLikeByAccount(String account);
     
-    Publisher<UserModel> save(UserModel domain);
+    Mono<T> save(T domain);
 
-    Publisher<Boolean> remove(String userId);
-
+    Mono<Void> remove(String userId);
 
 }
