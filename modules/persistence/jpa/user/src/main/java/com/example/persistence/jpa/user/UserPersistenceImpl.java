@@ -48,18 +48,5 @@ public class UserPersistenceImpl implements UserPersistence<UserModel> {
     public void remove(String userId) {
         userRepository.deleteById(userId);
     }
-
-
-    // private UserEntity downcast(UserModel model) {
-    //     UserEntity downCastingObject = new UserEntity();
-    //     downCastingObject.setUserId(model.getUserId());
-    //     downCastingObject.setAccount(model.getAccount());
-    //     downCastingObject.setPassword(model.getPassword());
-    //     downCastingObject.setRole(model.getRole());
-    //     downCastingObject.setInfoId(model.getInfoId());
-    //     downCastingObject.setUserInfo( model.getUserInfo());
-
-    //     return downCastingObject;
-    // }
     
 }
