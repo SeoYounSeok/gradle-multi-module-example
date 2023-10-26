@@ -62,6 +62,16 @@ public class UserR2dbcPersistenceImplTest {
                                 "   info_id BIGINT " +
                                 " );")
                 .then().block();
+
+                this.entityTemplate.getDatabaseClient()
+                .sql(
+                        "CREATE TABLE IF NOT EXISTS TEST_USER_INFO ( " +
+                                "   info_id BIGINT PRIMARY KEY AUTO_INCREMENT, " +
+                                "   username VARCHAR(30) NOT NULL, " +
+                                "   birthday DATETIME NOT NULL " +
+                                " );")
+                .then().block();
+
     }
 
     @BeforeEach

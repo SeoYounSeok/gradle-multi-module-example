@@ -2,11 +2,11 @@ package com.example.persistence.reactive.user.entity;
 
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 import org.springframework.util.Assert;
 
-import com.example.persistence.domain.UserInfoModel;
 import com.example.persistence.domain.UserModel;
 import com.example.persistence.reactive.user.entity.callback.UniqueIdEntity;
 
@@ -25,9 +25,10 @@ public class UserEntity implements UserModel, UniqueIdEntity {
     private String account;
     private String password;
     private String role;
-
     private Long infoId;
-    // private UserInfoEntity userInfo;
+
+    @Transient
+    private UserInfoEntity userInfo;
 
     public UserEntity(String account, String password, String role) {
         Assert.hasLength(account, "account Must be Non-Empty");
@@ -64,18 +65,16 @@ public class UserEntity implements UserModel, UniqueIdEntity {
         return this.role;
     }
 
-
+    @Column("info_id")
     @Override
     public Long getInfoId() {
         return this.infoId;
     }
 
     @Override
-    public UserInfoModel getUserInfo() {
-        // return this.u
-        return null;
+    public UserInfoEntity getUserInfo() {
+        return this.userInfo;
     }
-
 
     @Override
     public void generateId(String uuid) {
