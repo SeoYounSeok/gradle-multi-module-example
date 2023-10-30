@@ -26,7 +26,6 @@ public class R2dbcConfigTest {
 
     @Test
     void test_connection() {
-        when(mockInfo.url()).thenReturn("/");
         when(mockInfo.userName()).thenReturn("test");
         when(mockInfo.password()).thenReturn("test");
         when(mockInfo.dbName()).thenReturn("testDb");
