@@ -1,4 +1,4 @@
-package com.example.database.jdbc.h2;
+package com.example.database.r2dbc.h2;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -45,3 +45,4 @@ public class H2DriverInfo implements DriverInfo {
     }
 
 }
+
