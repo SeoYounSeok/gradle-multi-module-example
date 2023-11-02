@@ -1,8 +1,14 @@
+// mainClassName = 'UserApplication'
 
 dependencies {
-    implementation project(':modules:api:api-user')
+    // implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    implementation project(':modules:api:user')
     implementation project(':modules:database:jdbc:h2')
+    implementation project(':modules:persistence:jpa:user')
+    // implementation project(':modules:api:user')
 
     testImplementation project(':modules:database:jdbc:h2')
-    testImplementation project(':modules:api:api-user')
+    testImplementation project(':modules:persistence:jpa:user')
+    testImplementation project(':modules:api:user')
 }

@@ -30,7 +30,7 @@ public class GlobalPropertiesConfig implements EnvironmentPostProcessor {
 		try {
 			return this.loader.load("custom-resource", path);
 		} catch (IOException ex) {
-			throw new IllegalStateException("Failed to load yaml configuration from " + path, ex);
+			throw new IllegalStateException("Failed to load yml configuration from " + path, ex);
 		}
 	}
 

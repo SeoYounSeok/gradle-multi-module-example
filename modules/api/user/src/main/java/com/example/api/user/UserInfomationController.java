@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 public class UserInfomationController {
-    
+
     @GetMapping("/test")
     public ResponseEntity<?> getTest() {
         return ResponseEntity.ok("get method test");
@@ -19,4 +19,5 @@ public class UserInfomationController {
     public String getHello() {
         return "Hello";
     }
+
 }
