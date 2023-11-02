@@ -23,7 +23,7 @@ import com.example.persistence.jpa.user.entity.UserEntity;
 public class UserPersistenceImplTest {
 
     @Autowired
-    private UserPersistence<UserModel> userPersistence;
+    private UserPersistence userPersistence;
 
     private UserEntity testUser;
 

@@ -5,15 +5,15 @@ import java.util.Optional;
 
 import com.example.persistence.domain.UserModel;
 
-public interface UserPersistence<T extends UserModel> {
+public interface UserPersistence {
 
-    Optional<T> findByUserId(String userId);
+    Optional<UserModel> findByUserId(String userId);
 
-    Optional<T> findByAccount(String account);
+    Optional<UserModel> findByAccount(String account);
 
-    List<T> searchLikeByAccount(String account);
+    List<UserModel> searchLikeByAccount(String account);
     
-    T save(T domain);
+    UserModel save(UserModel domain);
 
     void remove(String userId);
 

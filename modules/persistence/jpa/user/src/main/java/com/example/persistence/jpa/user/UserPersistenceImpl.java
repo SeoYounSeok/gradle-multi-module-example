@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 
 @Repository
 @RequiredArgsConstructor
-public class UserPersistenceImpl implements UserPersistence<UserModel> {
+public class UserPersistenceImpl implements UserPersistence {
 
     private final JpaUserRepository userRepository;
 
