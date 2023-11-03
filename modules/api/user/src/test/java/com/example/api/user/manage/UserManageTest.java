@@ -14,34 +14,33 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import com.example.api.user.exceptions.DataDuplicationException;
+import com.example.api.user.exceptions.DataNotFoundException;
+import com.example.api.user.exceptions.PasswordNotMatchException;
 import com.example.api.user.manage.dto.UserDto;
 import com.example.api.user.manage.impl.UserManageImpl;
 import com.example.persistence.adapter.common.UserPersistence;
 import com.example.persistence.domain.UserModel;
+import com.example.utils.encoder.PwEncoder;
 
 
 public class UserManageTest {
 
-    // @Autowired
-    // private UserManage userManage;
+    @Mock
+    private PwEncoder pwEncoder;
 
     @Mock
     private UserPersistence userRepo;
 
-    // @InjectMocks
     private UserManage userManage;
-    
-    // @Mock
-    // private UserPersistence<UserModel> userRepo;
-
-
 
     UserDto testDto;
+    
 
     @BeforeEach
     void setup() {
         MockitoAnnotations.openMocks(this);
-        userManage = new UserManageImpl(userRepo);
+        userManage = new UserManageImpl(pwEncoder, userRepo);
 
         testDto = dtoMocking();
     }
@@ -104,6 +103,53 @@ public class UserManageTest {
         }
 
         assertThat(users.size()).isGreaterThan(0);
+    }
+
+    @Test
+    void test_signIn_account_notFound() {
+        when(userRepo.findByAccount(any())).thenReturn(Optional.empty());
+
+        assertThrows(DataNotFoundException.class, () -> {
+            userManage.signIn(testDto);
+        });
+    }
+
+    @Test
+    void test_signIn_password_not_match() {
+        testDto.setPassword("not-hashed-pw");
+
+        when(userRepo.findByAccount(any())).thenReturn(Optional.of(((UserModel) testDto)));
+
+        assertThrows(PasswordNotMatchException.class, () -> {
+            userManage.signIn(testDto);
+        });
+    }
+
+    @Test
+    void test_signIn_success() {
+        when(pwEncoder.match(any(), any())).thenReturn(true);
+        when(userRepo.findByAccount(any())).thenReturn(Optional.of(((UserModel) testDto)));
+
+        assertThat(userManage.signIn(testDto)).isEqualTo(testDto.getUserId());
+    }
+
+
+    @Test
+    void test_signUp_account_duplicate() {
+        when(userRepo.findByAccount(any())).thenReturn(Optional.of(((UserModel) testDto)));
+
+        assertThrows(DataDuplicationException.class, () -> {
+            userManage.signUp(testDto);
+        });
+    }
+
+    @Test
+    void test_signUp_success() {
+        when(userRepo.findByAccount(testDto.getAccount())).thenReturn(Optional.empty());
+        when(pwEncoder.encode(any())).thenReturn("encoded-pw");
+        when(userRepo.save(testDto)).thenReturn(testDto);
+        
+        assertThat(userManage.signUp(testDto)).isEqualTo(testDto.getUserId());
     }
     
 }

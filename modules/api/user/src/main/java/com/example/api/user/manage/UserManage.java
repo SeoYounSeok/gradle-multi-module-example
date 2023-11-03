@@ -12,10 +12,8 @@ public interface UserManage {
 
     UserDto getUserByAccount(String account);
 
-    void signUp();
+    String signUp(UserDto dto);
 
-    void signIn();
-
-    void signOut();
+    String signIn(UserDto dto);
 
 }

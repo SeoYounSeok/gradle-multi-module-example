@@ -6,10 +6,14 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.example.api.user.exceptions.DataDuplicationException;
+import com.example.api.user.exceptions.DataNotFoundException;
+import com.example.api.user.exceptions.PasswordNotMatchException;
 import com.example.api.user.manage.UserManage;
 import com.example.api.user.manage.dto.UserDto;
 import com.example.persistence.adapter.common.UserPersistence;
 import com.example.persistence.domain.UserModel;
+import com.example.utils.encoder.PwEncoder;
 
 import lombok.RequiredArgsConstructor;
 
@@ -17,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserManageImpl implements UserManage {
     
+    private final PwEncoder pwEncoder;
     private final UserPersistence userPersistence;
 
     @Override
@@ -42,26 +47,31 @@ public class UserManageImpl implements UserManage {
         return new UserDto(user);
     }
 
-
     @Override
-    public void signUp() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'signUp'");
+    public String signUp(UserDto dto) {
+        if (userPersistence.findByAccount(dto.getAccount()).isPresent()) {
+            throw new DataDuplicationException(dto.getAccount() + " is duplicated");
+        }
+
+        // 비밀번호 암호화
+        dto.setPassword(pwEncoder.encode(dto.getPassword()));
+
+        // UserModel newUser = userPersistence.save(dto);
+
+        // return new UserDto(newUser).getUserId();
+        return userPersistence.save(dto).getUserId();
     }
 
     @Override
-    public void signIn() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'signIn'");
+    public String signIn(UserDto dto) {
+        UserModel user = userPersistence.findByAccount(dto.getAccount())
+            .orElseThrow(() -> new DataNotFoundException("" + " - account is not found "));
+
+        if (!pwEncoder.match(dto.getPassword(), user.getPassword())) {
+            throw new PasswordNotMatchException();
+        }
+
+        return user.getUserId();
     }
-
-    @Override
-    public void signOut() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'signOut'");
-    }
-
-
-
 
 }
