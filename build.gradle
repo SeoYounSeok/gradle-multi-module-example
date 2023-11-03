@@ -32,7 +32,7 @@ def javaProjects() {
 }
 
 configure(javaProjects()) {
-        // group = 'com.example' // 그룹 아이디
+
         version = '1.0.1' // 프로젝트 버전
 
         apply plugin: 'java'
@@ -55,11 +55,7 @@ configure(javaProjects()) {
 	        annotationProcessor 'org.projectlombok:lombok'
 
             implementation 'org.springframework.boot:spring-boot-starter' // 스프링 부트 스타터 의존성
-            testImplementation 'org.springframework.boot:spring-boot-starter-test' 
-            // {
-            //     exclude group: 'org.mockito', module :'mockito-core'
-            // }
-            // testImplementation 'org.mockito:mockito-inline'
+            testImplementation 'org.springframework.boot:spring-boot-starter-test'
         }
 
         dependencyManagement {
