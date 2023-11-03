@@ -1,7 +1,6 @@
 package com.example.api.user.manage.impl;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -34,7 +33,7 @@ public class UserManageImpl implements UserManage {
     @Override
     public UserDto getUser(String userId) {
         UserModel user = userPersistence.findByUserId(userId)
-            .orElseThrow(() -> new NoSuchElementException());
+            .orElseThrow(() -> new DataNotFoundException(userId + " is not found"));
 
         return new UserDto(user);
     }
@@ -42,7 +41,7 @@ public class UserManageImpl implements UserManage {
     @Override
     public UserDto getUserByAccount(String account) {
         UserModel user = userPersistence.findByAccount(account)
-            .orElseThrow(() -> new NoSuchElementException());
+            .orElseThrow(() -> new DataNotFoundException(account + " is not found"));
 
         return new UserDto(user);
     }
@@ -56,16 +55,13 @@ public class UserManageImpl implements UserManage {
         // 비밀번호 암호화
         dto.setPassword(pwEncoder.encode(dto.getPassword()));
 
-        // UserModel newUser = userPersistence.save(dto);
-
-        // return new UserDto(newUser).getUserId();
         return userPersistence.save(dto).getUserId();
     }
 
     @Override
     public String signIn(UserDto dto) {
         UserModel user = userPersistence.findByAccount(dto.getAccount())
-            .orElseThrow(() -> new DataNotFoundException("" + " - account is not found "));
+            .orElseThrow(() -> new DataNotFoundException(dto.getAccount() + " is not found "));
 
         if (!pwEncoder.match(dto.getPassword(), user.getPassword())) {
             throw new PasswordNotMatchException();
