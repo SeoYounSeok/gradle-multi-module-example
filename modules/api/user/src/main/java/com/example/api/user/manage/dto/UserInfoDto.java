@@ -14,12 +14,14 @@ public class UserInfoDto implements UserInfoModel {
     private String userId;
     private UserDto user;
 
+    public UserInfoDto() {}
+
     public UserInfoDto(UserInfoModel model) {
         this.infoId = model.getInfoId();
         this.userName = model.getUserName();
         this.birthDay = model.getBirthDay();
         this.userId = model.getUserId();
-        this.user = new UserDto(model.getUser());
+        // this.user = new UserDto(model.getUser());
     }
     
     @Override
@@ -44,7 +46,7 @@ public class UserInfoDto implements UserInfoModel {
 
     @Override
     public UserDto getUser() {
-        return this.user;
+        return null;
     }
     
 }

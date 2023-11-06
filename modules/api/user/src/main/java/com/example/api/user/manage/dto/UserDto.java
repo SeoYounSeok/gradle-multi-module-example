@@ -2,9 +2,10 @@ package com.example.api.user.manage.dto;
 
 import com.example.persistence.domain.UserModel;
 
-import lombok.Data;
+import lombok.Setter;
+import lombok.ToString;
 
-@Data
+@Setter @ToString
 public class UserDto implements UserModel {
 
     private String userId;
@@ -22,7 +23,7 @@ public class UserDto implements UserModel {
         this.password = model.getPassword();
         this.role = model.getRole();
 
-        if (model.getInfoId() != null) {
+        if (model.getUserInfo() != null) {
             this.infoId = model.getInfoId();
             this.userInfo = new UserInfoDto(model.getUserInfo());
         }

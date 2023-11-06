@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -14,10 +15,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import com.example.api.user.exceptions.DataDuplicationException;
 import com.example.api.user.exceptions.DataNotFoundException;
-import com.example.api.user.exceptions.PasswordNotMatchException;
 import com.example.api.user.manage.dto.UserDto;
+import com.example.api.user.manage.dto.UserInfoDto;
 import com.example.api.user.manage.impl.UserManageImpl;
 import com.example.persistence.adapter.common.UserPersistence;
 import com.example.persistence.domain.UserModel;
@@ -104,52 +104,63 @@ public class UserManageTest {
 
         assertThat(users.size()).isGreaterThan(0);
     }
+    
 
     @Test
-    void test_signIn_account_notFound() {
-        when(userRepo.findByAccount(any())).thenReturn(Optional.empty());
+    void test_user_update_user_notFound() {
+        String notFoundUserId = "test";
+        when(userRepo.findByUserId(notFoundUserId)).thenReturn(Optional.empty());
 
         assertThrows(DataNotFoundException.class, () -> {
-            userManage.signIn(testDto);
+            userManage.update(notFoundUserId, testDto);
         });
     }
 
     @Test
-    void test_signIn_password_not_match() {
-        testDto.setPassword("not-hashed-pw");
+    void test_user_update_success() {
+        UserInfoDto testInfo = new UserInfoDto();
+        testInfo.setInfoId(1L);
+        testInfo.setUserName("test-name");
+        testInfo.setBirthDay(LocalDateTime.of(2020, 1, 1, 0, 0));
+        testDto.setUserInfo(testInfo);
 
-        when(userRepo.findByAccount(any())).thenReturn(Optional.of(((UserModel) testDto)));
+        when(userRepo.findByUserId(testDto.getUserId())).thenReturn(Optional.of(((UserModel) testDto)));
 
-        assertThrows(PasswordNotMatchException.class, () -> {
-            userManage.signIn(testDto);
-        });
+        UserDto updatedUser = deepCopyForUser(testDto);
+        UserInfoDto updatedInfo = deepCopyForInfo(testInfo);
+        updatedInfo.setUserName(testInfo.getUserName() + "2");
+        updatedInfo.setBirthDay(testInfo.getBirthDay().plusDays(1));
+        updatedUser.setUserInfo(updatedInfo);
+
+        when(userRepo.save(any())).thenReturn(updatedUser);
+
+        UserDto updated = userManage.update(testDto.getUserId(), testDto);
+
+        assertThat(updated).isNotNull();
+        assertThat(updated.getUserInfo().getBirthDay()).isNotEqualTo(testInfo.getBirthDay());
+        assertThat(updated.getUserInfo().getUserName()).isNotEqualTo(testInfo.getUserName());
     }
 
-    @Test
-    void test_signIn_success() {
-        when(pwEncoder.match(any(), any())).thenReturn(true);
-        when(userRepo.findByAccount(any())).thenReturn(Optional.of(((UserModel) testDto)));
-
-        assertThat(userManage.signIn(testDto)).isEqualTo(testDto.getUserId());
-    }
-
-
-    @Test
-    void test_signUp_account_duplicate() {
-        when(userRepo.findByAccount(any())).thenReturn(Optional.of(((UserModel) testDto)));
-
-        assertThrows(DataDuplicationException.class, () -> {
-            userManage.signUp(testDto);
-        });
-    }
-
-    @Test
-    void test_signUp_success() {
-        when(userRepo.findByAccount(testDto.getAccount())).thenReturn(Optional.empty());
-        when(pwEncoder.encode(any())).thenReturn("encoded-pw");
-        when(userRepo.save(testDto)).thenReturn(testDto);
-        
-        assertThat(userManage.signUp(testDto)).isEqualTo(testDto.getUserId());
-    }
     
+
+    private UserDto deepCopyForUser(UserDto dto) {
+        UserDto copyDto = new UserDto();
+        copyDto.setUserId(dto.getUserId());
+        copyDto.setAccount(dto.getAccount());
+        copyDto.setPassword(dto.getPassword());
+        copyDto.setRole(dto.getRole());
+        copyDto.setInfoId(dto.getInfoId());
+        copyDto.setUserInfo(dto.getUserInfo());
+        return copyDto;
+    }
+
+    private UserInfoDto deepCopyForInfo(UserInfoDto dto) {
+        UserInfoDto copyDto = new UserInfoDto();
+        copyDto.setInfoId(dto.getInfoId());
+        copyDto.setUserName(dto.getUserName());
+        copyDto.setBirthDay(dto.getBirthDay());
+        copyDto.setUserId(dto.getUserId());
+        copyDto.setUser(dto.getUser());
+        return copyDto;
+    }
 }

@@ -1,13 +1,12 @@
 package com.example.api.user.api.handlers;
 
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,8 +42,8 @@ public class CustomExceptionHandlerTest {
         String throwMsg = "DataNotFoundException !";
         when(mockController.throwException()).thenThrow(new DataNotFoundException(throwMsg));
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/throwException"))
-                .andExpect(MockMvcResultMatchers.status().isNotFound())
+        mockMvc.perform(get("/throwException"))
+                .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.code").value("404 NOT-FOUND"))
                 .andExpect(jsonPath("$.message").value(throwMsg));
     }
@@ -54,7 +53,7 @@ public class CustomExceptionHandlerTest {
         String throwMsg = "DataDuplicationException !";
         when(mockController.throwException()).thenThrow(new DataDuplicationException(throwMsg));
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/throwException"))
+        mockMvc.perform(get("/throwException"))
                 .andExpect(status().isConflict())
                 .andExpect(jsonPath("$.code").value("409 CONFLICT"))
                 .andExpect(jsonPath("$.message").value(throwMsg));
@@ -65,7 +64,7 @@ public class CustomExceptionHandlerTest {
         String throwMsg = "PasswordNotMatchException !";
         when(mockController.throwException()).thenThrow(new PasswordNotMatchException(throwMsg));
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/throwException"))
+        mockMvc.perform(get("/throwException"))
                 .andExpect(status().isUnauthorized())
                 .andExpect(jsonPath("$.code").value("401 UNAUTHORIZED"))
                 .andExpect(jsonPath("$.message").value(throwMsg));

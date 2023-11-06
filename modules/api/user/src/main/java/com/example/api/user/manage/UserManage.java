@@ -12,8 +12,6 @@ public interface UserManage {
 
     UserDto getUserByAccount(String account);
 
-    String signUp(UserDto dto);
-
-    String signIn(UserDto dto);
+    UserDto update(String userId, UserDto dto);
 
 }

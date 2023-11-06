@@ -1,15 +1,15 @@
 package com.example.api.user.manage.impl;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.example.api.user.exceptions.DataDuplicationException;
 import com.example.api.user.exceptions.DataNotFoundException;
-import com.example.api.user.exceptions.PasswordNotMatchException;
 import com.example.api.user.manage.UserManage;
 import com.example.api.user.manage.dto.UserDto;
+import com.example.api.user.manage.dto.UserInfoDto;
 import com.example.persistence.adapter.common.UserPersistence;
 import com.example.persistence.domain.UserModel;
 import com.example.utils.encoder.PwEncoder;
@@ -47,27 +47,38 @@ public class UserManageImpl implements UserManage {
     }
 
     @Override
-    public String signUp(UserDto dto) {
-        if (userPersistence.findByAccount(dto.getAccount()).isPresent()) {
-            throw new DataDuplicationException(dto.getAccount() + " is duplicated");
+    public UserDto update(String userId, UserDto dto) {
+        UserModel user = userPersistence.findByUserId(userId)
+            .orElseThrow(() -> new DataNotFoundException(userId + " is not found "));
+
+        UserDto targetUser = new UserDto(user);
+        UserInfoDto targetUserInfo = new UserInfoDto(user.getUserInfo());
+
+        String rawPw = dto.getPassword();
+        if (rawPw != null) {
+            String encryptedPw = encryptPw(rawPw);
+            targetUser.setPassword(encryptedPw);
         }
 
-        // 비밀번호 암호화
-        dto.setPassword(pwEncoder.encode(dto.getPassword()));
+        String username = dto.getUserInfo().getUserName();
+        if (username != null) {
+            targetUserInfo.setUserName(username);
+        }
+        
+        LocalDateTime birthDay = dto.getUserInfo().getBirthDay();
+        if (birthDay != null) {
+            targetUserInfo.setBirthDay(birthDay);
+        }
 
-        return userPersistence.save(dto).getUserId();
+        targetUser.setUserInfo(targetUserInfo);
+
+        UserModel updatedUser = userPersistence.save(targetUser);
+         return new UserDto(updatedUser);
     }
 
-    @Override
-    public String signIn(UserDto dto) {
-        UserModel user = userPersistence.findByAccount(dto.getAccount())
-            .orElseThrow(() -> new DataNotFoundException(dto.getAccount() + " is not found "));
 
-        if (!pwEncoder.match(dto.getPassword(), user.getPassword())) {
-            throw new PasswordNotMatchException();
-        }
-
-        return user.getUserId();
+    private String encryptPw(String raw) {
+        return pwEncoder.encode(raw);
     }
 
 }
