@@ -23,7 +23,7 @@ import com.example.persistence.jpa.user.entity.UserEntity;
 public class UserPersistenceImplTest {
 
     @Autowired
-    private UserPersistence<UserModel> userPersistence;
+    private UserPersistence userPersistence;
 
     private UserEntity testUser;
 
@@ -82,7 +82,7 @@ public class UserPersistenceImplTest {
         private String password;
         private String role;
         private Long infoId;
-        private Object userInfo;
+        private Object userInfo; // not user in this test
 
         public TestUserDto(String account, String password, String role) {
             this.account = account;
@@ -132,7 +132,7 @@ public class UserPersistenceImplTest {
     }
 
     @Test
-    @DisplayName("외부 모듈에서 객체 findByUserId 타입 케스팅 테스트")
+    @DisplayName("외부 모듈에서 객체 조회시 타입 케스팅 테스트")
     void test_findByUserId_from_outside() {
         userPersistence.save(testUser);
 

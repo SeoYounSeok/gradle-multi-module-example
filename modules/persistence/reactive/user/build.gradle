@@ -1,0 +1,23 @@
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
+
+    // util
+    implementation project(':modules:utils:generator')
+
+    implementation project(':modules:persistence:domain')
+    implementation project(':modules:persistence:adapter:reactor')
+
+
+    // for test
+    runtimeOnly 'io.r2dbc:r2dbc-h2'
+    testImplementation 'io.projectreactor:reactor-test'
+    testImplementation 'org.mockito:mockito-inline:3.6.0'
+}

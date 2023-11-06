@@ -8,25 +8,20 @@ import com.example.database.interfaces.DriverInfo;
 @Component
 public class H2DriverInfo implements DriverInfo {
 
-    private String DRIVER_CLASS_NAME;
     private String URL;
     private String USER_NAME;
     private String PASSWORD;
+    private String DB_NAME;
 
     public H2DriverInfo(
-            @Value("${database.driver-class-name}") String driverClassName,
             @Value("${database.url}") String url,
             @Value("${database.user-name}") String userName,
-            @Value("${database.password}") String password) {
-        this.DRIVER_CLASS_NAME = driverClassName;
+            @Value("${database.password}") String password,
+            @Value("${database.db}") String dbName) {
         this.URL = url;
         this.USER_NAME = userName;
         this.PASSWORD = password;
-    }
-
-    @Override
-    public String driverClassName() {
-        return DRIVER_CLASS_NAME;
+        this.DB_NAME = dbName;
     }
 
     @Override
@@ -42,6 +37,11 @@ public class H2DriverInfo implements DriverInfo {
     @Override
     public String password() {
         return PASSWORD;
+    }
+
+    @Override
+    public String dbName() {
+        return DB_NAME;
     }
 
 }

@@ -1,6 +1,6 @@
 
 database:
-    driver-class-name: org.h2.Driver
     url: jdbc:h2:mem:testdb
     user-name: test
     password: test
+    db: testDb

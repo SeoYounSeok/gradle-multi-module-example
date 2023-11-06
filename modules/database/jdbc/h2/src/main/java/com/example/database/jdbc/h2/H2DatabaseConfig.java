@@ -18,7 +18,7 @@ public class H2DatabaseConfig implements DatabaseConfig {
     @Override
     public DataSource getDataSource(DriverInfo info) {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(info.driverClassName());
+        dataSource.setDriverClassName("org.h2.Driver");
         dataSource.setUrl(info.url());
         dataSource.setUsername(info.userName());
         dataSource.setPassword(info.password());

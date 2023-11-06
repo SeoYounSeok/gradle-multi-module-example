@@ -1,5 +1,4 @@
 
-
 buildscript {
     ext {
         springBootVersion = '2.7.10' // 스프링 부트 버전
@@ -20,12 +19,6 @@ plugins {
     id 'base'
 }
 
-// allprojects {
-//     group = 'com.example' // 그룹 아이디
-//     version = '1.0.0' // 프로젝트 버전
-    
-// }
-
 
 def javaProjects() {
     println('searching for module which has "src" folder')
@@ -39,8 +32,8 @@ def javaProjects() {
 }
 
 configure(javaProjects()) {
-        group = 'com.example' // 그룹 아이디
-        version = '1.0.0' // 프로젝트 버전
+
+        version = '1.0.1' // 프로젝트 버전
 
         apply plugin: 'java'
         apply plugin: 'org.springframework.boot' // 스프링 부트 플러그인 적용
@@ -62,11 +55,7 @@ configure(javaProjects()) {
 	        annotationProcessor 'org.projectlombok:lombok'
 
             implementation 'org.springframework.boot:spring-boot-starter' // 스프링 부트 스타터 의존성
-            testImplementation 'org.springframework.boot:spring-boot-starter-test' 
-            // {
-            //     exclude group: 'org.mockito', module :'mockito-core'
-            // }
-            // testImplementation 'org.mockito:mockito-inline'
+            testImplementation 'org.springframework.boot:spring-boot-starter-test'
         }
 
         dependencyManagement {
@@ -83,4 +72,5 @@ configure(javaProjects()) {
             }
             // testLogging.showStandardStreams = false
         }
+
 }
