@@ -13,7 +13,6 @@ import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
 import org.springframework.test.context.ContextConfiguration;
 
 import com.example.persistence.adapter.reactor.UserInfoR2dbcPersistence;
-import com.example.persistence.domain.UserInfoModel;
 import com.example.persistence.reactive.user.UserInfoR2dbcPersistenceImpl;
 import com.example.persistence.reactive.user.config.R2dbcConfiguration;
 import com.example.persistence.reactive.user.entity.UserInfoEntity;
@@ -30,7 +29,7 @@ import reactor.test.StepVerifier;
 public class UserInfoR2dbcPersistenceImplTest {
 
     @Autowired
-    private UserInfoR2dbcPersistence<UserInfoModel> infoPersistence;
+    private UserInfoR2dbcPersistence infoPersistence;
 
     @Autowired
     private R2dbcEntityTemplate entityTemplate;

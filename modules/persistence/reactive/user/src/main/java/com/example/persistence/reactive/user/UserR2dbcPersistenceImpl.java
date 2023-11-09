@@ -14,7 +14,7 @@ import reactor.core.publisher.Mono;
 
 @Repository
 @RequiredArgsConstructor
-public class UserR2dbcPersistenceImpl implements UserR2dbcPersistence<UserModel> {
+public class UserR2dbcPersistenceImpl implements UserR2dbcPersistence {
 
     private final UserR2dbcRepository userRepository;
     private final UserInfoR2dbcRepository infoRepository;

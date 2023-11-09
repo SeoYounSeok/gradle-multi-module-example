@@ -7,7 +7,7 @@ jar {
 }
 
 dependencies {
-    implementation project(':modules:persistence:domain')
+    api project(':modules:persistence:domain')
 
-    implementation 'io.projectreactor:reactor-core'
+    api 'io.projectreactor:reactor-core'
 }
