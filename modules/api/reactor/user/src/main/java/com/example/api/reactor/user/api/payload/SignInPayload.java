@@ -1,8 +1,8 @@
-package com.example.api.user.api.payload;
+package com.example.api.reactor.user.api.payload;
 
 import javax.validation.constraints.NotBlank;
 
-import com.example.api.user.manage.dto.UserDto;
+import com.example.api.reactor.user.manage.dto.UserDto;
 
 import lombok.Data;
 
@@ -22,3 +22,4 @@ public class SignInPayload {
         return dto;
     }
 }
+

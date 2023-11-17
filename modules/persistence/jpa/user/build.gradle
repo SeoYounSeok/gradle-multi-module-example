@@ -11,6 +11,6 @@ dependencies {
     api project(':modules:utils:generator')
 
     // for Test
-    runtimeOnly 'com.h2database:h2'
+    testRuntimeOnly 'com.h2database:h2'
     testImplementation 'org.mockito:mockito-inline:3.6.0'
 }

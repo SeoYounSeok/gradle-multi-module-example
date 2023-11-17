@@ -1,5 +1,6 @@
 package com.example.database.r2dbc.h2;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.example.database.interfaces.DatabaseConfig;
@@ -11,6 +12,7 @@ import io.r2dbc.spi.ConnectionFactory;
 @Configuration
 public class H2R2dbcDatabaseConfig implements DatabaseConfig {
 
+    @Bean
     @Override
     public ConnectionFactory getDataSource(DriverInfo config) {
         return H2ConnectionFactory

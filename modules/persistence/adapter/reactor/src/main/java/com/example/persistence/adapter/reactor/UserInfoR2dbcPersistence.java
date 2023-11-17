@@ -1,13 +1,15 @@
 package com.example.persistence.adapter.reactor;
 
+import com.example.persistence.domain.UserInfoModel;
+
 import reactor.core.publisher.Mono;
 
-public interface UserInfoR2dbcPersistence<T> {
-    Mono<T> findByInfoId(Long id);
+public interface UserInfoR2dbcPersistence {
+    Mono<UserInfoModel> findByInfoId(Long id);
 
-    Mono<T> findByUserName(String name);
+    Mono<UserInfoModel> findByUserName(String name);
 
-    Mono<T> save(T model);
+    Mono<UserInfoModel> save(UserInfoModel model);
 
     Mono<Void> remove(Long infoId);
 }

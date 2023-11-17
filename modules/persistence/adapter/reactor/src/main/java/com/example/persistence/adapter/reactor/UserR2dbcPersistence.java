@@ -1,17 +1,19 @@
 package com.example.persistence.adapter.reactor;
 
+import com.example.persistence.domain.UserModel;
+
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-public interface UserR2dbcPersistence<T> {
+public interface UserR2dbcPersistence {
 
-    Mono<T> findByAccount(String account);
+    Mono<UserModel> findByAccount(String account);
     
-    Mono<T> findByUserId(String userId);
+    Mono<UserModel> findByUserId(String userId);
 
-    Flux<T> searchLikeByAccount(String account);
+    Flux<UserModel> searchLikeByAccount(String account);
     
-    Mono<T> save(T domain);
+    Mono<UserModel> save(UserModel domain);
 
     Mono<Void> remove(String userId);
 

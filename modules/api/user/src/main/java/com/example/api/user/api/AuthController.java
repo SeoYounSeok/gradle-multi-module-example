@@ -5,6 +5,7 @@ import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -14,6 +15,7 @@ import com.example.api.user.manage.AuthManage;
 
 import lombok.RequiredArgsConstructor;
 
+@Validated
 @Controller
 @RequiredArgsConstructor
 public class AuthController {

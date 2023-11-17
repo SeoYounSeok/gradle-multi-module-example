@@ -12,7 +12,7 @@ import reactor.core.publisher.Mono;
 
 @Repository
 @RequiredArgsConstructor
-public class UserInfoR2dbcPersistenceImpl implements UserInfoR2dbcPersistence<UserInfoModel> {
+public class UserInfoR2dbcPersistenceImpl implements UserInfoR2dbcPersistence {
 
     private final UserInfoR2dbcRepository infoRepository;
     

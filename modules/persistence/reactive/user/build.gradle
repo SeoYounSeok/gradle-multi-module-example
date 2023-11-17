@@ -7,17 +7,15 @@ jar {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
+    // api 'org.springframework.boot:spring-boot-starter-data-r2dbc'
 
     // util
-    implementation project(':modules:utils:generator')
-
-    implementation project(':modules:persistence:domain')
-    implementation project(':modules:persistence:adapter:reactor')
+    api project(':modules:utils:generator')
+    api project(':modules:persistence:adapter:reactor')
 
 
     // for test
-    runtimeOnly 'io.r2dbc:r2dbc-h2'
+    testRuntimeOnly 'io.r2dbc:r2dbc-h2'
     testImplementation 'io.projectreactor:reactor-test'
     testImplementation 'org.mockito:mockito-inline:3.6.0'
 }

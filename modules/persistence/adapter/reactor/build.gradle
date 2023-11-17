@@ -7,7 +7,8 @@ jar {
 }
 
 dependencies {
-    implementation project(':modules:persistence:domain')
+    api 'org.springframework.boot:spring-boot-starter-data-r2dbc'
 
-    implementation 'io.projectreactor:reactor-core'
+    api project(':modules:persistence:domain')
+    
 }
