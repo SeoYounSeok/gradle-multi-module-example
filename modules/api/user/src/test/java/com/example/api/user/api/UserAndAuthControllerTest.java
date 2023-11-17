@@ -12,6 +12,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -44,12 +45,6 @@ public class UserAndAuthControllerTest {
     @MockBean AuthManage authManage;
 
     UserDto testDto;
-
-    @BeforeEach
-    void beforeEach() {
-        testDto = dtoMocking();
-    }
-
     private UserDto dtoMocking() {
         UserDto dto = new UserDto();
         dto.setUserId("b2dcc9b7-8e2d-4cd5-ad67-01dfc9bcb3de"); // 32길이 이상 ID 필요
@@ -57,6 +52,12 @@ public class UserAndAuthControllerTest {
         dto.setPassword("test");
         dto.setRole("user");
         return dto;
+    }
+
+    @BeforeEach
+    void beforeEach() {
+        MockitoAnnotations.openMocks(this);
+        testDto = dtoMocking();
     }
 
 
