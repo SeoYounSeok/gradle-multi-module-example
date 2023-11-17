@@ -85,6 +85,8 @@ public class UserR2dbcPersistenceImplTest {
                 .block();
     }
 
+
+
     @Test
     @DisplayName("UserEntity 영속성 때 UniqueIdCallback 동작 테스트")
     void test_create_userEntity_with_callback() {

@@ -79,6 +79,8 @@ public class R2dbcJoinPersistenceTest {
         testUser.setUserInfo(testInfo);
     }
 
+
+
     @Test
     @DisplayName("User, UserInfo soft join 조회 테스트")
     void test_findbyUserId_with_UserInfo() {
