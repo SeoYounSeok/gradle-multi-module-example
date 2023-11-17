@@ -8,5 +8,4 @@ public interface AuthManage {
 
     String signIn(UserDto dto);
 
-    
 }
